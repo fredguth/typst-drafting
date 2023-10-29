@@ -25,6 +25,8 @@
     rect: rect,
     side: auto,
     hidden: false,
+    numbering: false,
+    numering-format: "1.",
   )
 )
 #let note-descent = state("note-descent", (:))
@@ -297,6 +299,8 @@
   _update-descent("left", dy, anchor-y, note-rect)
 }
 
+#let note-counter = counter("note-counter")
+
 /// Places a boxed note in the left or right page margin.
 ///
 /// - body (content): Margin note contents, usually text
@@ -309,6 +313,11 @@
     let properties = margin-note-defaults.at(loc) + kwargs.named()
     let (anchor-x, anchor-y) = (pos.x - properties.page-offset-x, pos.y)
     
+    if (properties.numbering) {
+      note-counter.step()
+      super(note-counter.display(properties.numering-format))
+    }
+
     if properties.hidden {
       return
     }
@@ -335,13 +344,22 @@
       }
     }
 
+    let new-body
+
+    if (properties.numbering) {
+      new-body = note-counter.display(properties.numering-format) + " " + body
+    } else {
+      new-body = body
+    }
+
     let margin-func = if properties.side == right {
       _margin-note-right
     } else {
       _margin-note-left
     }
+
     margin-func(
-      body, dy, anchor-x, anchor-y, ..properties
+      new-body, dy, anchor-x, anchor-y, ..properties
     )
   })
 }
