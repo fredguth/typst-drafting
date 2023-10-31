@@ -1,6 +1,6 @@
 [package]
 name = "marginalia"
-version = "0.2"
+version = "0.2.0"
 entrypoint = "marginalia.typ"
 authors = ["José María Martín"]
 license = "Unlicense"
