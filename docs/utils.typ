@@ -2,7 +2,7 @@
 // Inspiration: https://github.com/typst/packages/blob/main/packages/preview/cetz/0.1.0/manual.typ
 ////
 
-#import "../drafting.typ"
+#import "../marginalia.typ"
 #import "@preview/tidy:0.1.0"
 
 #let example-box = box.with(fill: white.darken(3%), inset: 0.5em, radius: 0.5em, width: 100%)
@@ -13,7 +13,7 @@
 #let show-module-fn(module, fn, ..args) = {
   module.functions = module.functions.filter(f => f.name == fn)
   tidy.show-module(module, ..args.pos(), ..args.named(),
-                   show-module-name: false)
+                   show-module-name: false, style: tidy.styles.default)
 }
 
 
@@ -95,7 +95,7 @@
   width: 2in,
   margin-left: 0.8in,
   margin-right: 1in,
-  scope: (drafting:drafting),
+  scope: (marginalia:marginalia),
   direction: ltr,
 ) = {
   let (l, r) = (margin-left, margin-right)
